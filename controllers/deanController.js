@@ -13,6 +13,7 @@ router.get('/pending-sessions', async(req, res) => {
         const pendingSessions = dean.bookedSessions.filter(
             (session) => {
                 const sessionTime = new Date(`${session.day} ${session.time}`);
+                console.log(sessionTime, " ", now);
                 return sessionTime > now;
             }
         );

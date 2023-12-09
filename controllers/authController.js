@@ -5,7 +5,7 @@ const Student = require('../models/studentModel');
 const Dean = require('../models/deanModel');
 
 const generateToken = (userId, userType) => {
-    return jwt.sign({ userId, type: userType }, 'secret-key', { expiresIn: '1h' });
+    return jwt.sign({ userId, type: userType }, 'secret-key');
 };
 
 const signupStudent = async(req, res) => {
@@ -46,7 +46,7 @@ const loginStudent = async(req, res) => {
 
 const signupDean = async(req, res) => {
     try {
-        const { deanId, password, name } = req.body;
+        const { deanId, password, name, freeSlots } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const token = generateToken(deanId, 'dean');
 
@@ -55,6 +55,7 @@ const signupDean = async(req, res) => {
             password: hashedPassword,
             name,
             token,
+            freeSlots
         });
 
         const savedDean = await dean.save();
