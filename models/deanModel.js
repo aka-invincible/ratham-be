@@ -5,7 +5,7 @@ const deanSchema = new mongoose.Schema({
     password: { type: String, required: true },
     name: { type: String, required: true },
     token: { type: String, required: true, unique: true },
-    freeSlots: [{ day: String, time: String }], // Array of slot times, e.g., ['Thur 10 AM', 'Fri 10 AM']
+    freeSlots: [{ day: String, time: String }],
     bookedSessions: [{ studentName: String, day: String, time: String }],
 });
 
