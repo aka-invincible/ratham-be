@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const Student = require('../models/studentModel');
+const Dean = require('../models/deanModel');
 
-const deanSchema = new mongoose.Schema({
-    deanId: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: { type: String, required: true },
-    token: { type: String, required: true, unique: true },
-    freeSlots: [{ day: String, time: String }],
-    bookedSessions: [{ studentName: String, day: String, time: String }],
-});
+const authMiddleware = async(req, res, next) => {
+    try {
+        // console.log('Here');
+        const token = req.headers.authorization.split(' ')[1];
+        // console.log('THere', token);
+        const decoded = jwt.verify(token, 'secret-key');
+        console.log(decoded.type);
 
-module.exports = mongoose.model('Dean', deanSchema);
         if (decoded.type === 'student') {
             console.log("userId ", typeof decoded.userId);
             const student = await Student.findOne({ studentId: decoded.userId });
